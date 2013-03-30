@@ -10,8 +10,14 @@ namespace parser
         {
             operators = new List<string>(standart_operators);
 			operators.AddRange(additional_operators);
-
         }
+        public PostfixNotationExpression(string input)
+        {
+            operators = new List<string>(standart_operators);
+            operators.AddRange(additional_operators);
+            Queue<string> functionQueue = new Queue<string>(ConvertToPostfixNotation(input));
+        }
+        private Queue<string> functionQueue;
         private List<string> operators;
         private List<string> additional_operators =
             new List<string>(new string[] { "n", "p", "abs", "sin", "cos", "tan", "asin", "acos", "atan", "sqrt", "ceil", "E", 
@@ -143,7 +149,7 @@ namespace parser
         public decimal result(string input, int[] x)
         {
             Stack<string> stack = new Stack<string>();
-            Queue<string> queue = new Queue<string>(ConvertToPostfixNotation(input));
+            Queue<string> queue = new Queue<string>(functionQueue);
             string str = queue.Dequeue();
             while (queue.Count >= 0)
             {
