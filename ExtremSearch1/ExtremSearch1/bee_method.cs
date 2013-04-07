@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common;
+using Parser;
 
 namespace BeeMethod
 {
-    
+
     class BeeMethod
     {
         struct Bee
@@ -31,7 +32,7 @@ namespace BeeMethod
         int argCnt; // number of variables
         int iterMax; // number of iterations 
         int iter; //current iteration
-        Point rangeMin; 
+        Point rangeMin;
         Point rangeMax;
         double wMax;
         double eMax;
@@ -40,10 +41,13 @@ namespace BeeMethod
         double gamma;
         double range;
         int optOrient; // 1 for max, -1 for min
-        public BeeMethod(int Bs, double a, double T0, double T1, int n, int maxIt, double[] rMin, double[] rMax, double w, double e, double myEta, double myBeta, double myGamma, double myRange, int orient)
+        Parser.PostfixNotationExpression func;
+        static Random rand;
+           
+        public BeeMethod(int Bs, double a, double T0, double T1, int n, int maxIt, double[] rMin, double[] rMax, double w, double e, double myEta, double myBeta, double myGamma, double myRange, int orient, Parser.PostfixNotationExpression myFunc)
         {
             B = Bs; // must be > 0
-            alpha = a; 
+            alpha = a;
             T = T0;
             TFinal = T1;
             argCnt = n; // must be > 0
@@ -57,10 +61,11 @@ namespace BeeMethod
             gamma = myGamma;
             range = myRange;
             optOrient = orient; // must be +-1
+            func = myFunc;
+            rand = new Random();
         }
         private int getRandSign()
         {
-            Random rand = new Random();
             return rand.NextDouble() < 0.5 ? 1 : -1;
         }
         private void checkRange(ref Bee tmp)
@@ -73,12 +78,11 @@ namespace BeeMethod
         }
         private double getProfit(Bee tmp)
         {
-            return optOrient * 1; // TODO
+            return optOrient * func.result(argCnt, tmp.point.x);
         }
         private Bee getRandBee()
         {
             Bee tmp = new Bee(argCnt);
-            Random rand = new Random();
             for (int j = 0; j < argCnt; j++)
             {
                 tmp.point[j] = rand.NextDouble() * (rangeMax[j] - rangeMin[j]) + rangeMin[j];
@@ -86,17 +90,16 @@ namespace BeeMethod
             }
             return tmp;
         }
-             
+
         public double[] search()
         {
-            List <Bee> bee = new List<Bee>();
+            List<Bee> bee = new List<Bee>();
             Bee best = new Bee(argCnt);
             List<Bee> workBee = new List<Bee>();
             List<Bee> newWorkBee = new List<Bee>();
             Bee tmp;
-            
+
             //Step 2
-            Random rand = new Random();
             for (int i = 0; i < B; i++)
             {
                 tmp = getRandBee();
@@ -104,18 +107,20 @@ namespace BeeMethod
             }
             iter = 1;
             //Step 3
-            
-            while(T != TFinal && iter != iterMax)
+
+            while (T != TFinal && iter != iterMax)
             {
-                best = bee.First();
-                for (int i = 0; i < B; i++)
+                newWorkBee.Clear();
+                workBee.Clear();
+                best.Copy(bee.First());
+                for (int i = 0; i < bee.Count; i++)
                 {
                     if (best.profit < bee[i].profit)
                     {
                         best.Copy(bee[i]);
                     }
                 }
-                for (int i = 0; i < B; i++)
+                for (int i = 0; i < bee.Count; i++)
                 {
                     if (Math.Exp(-Math.Abs(bee[i].profit - best.profit) / T) > rand.NextDouble())
                     {
@@ -123,7 +128,7 @@ namespace BeeMethod
                     }
                 }
                 //Step 4
-                foreach (Bee currBee in newWorkBee)
+                foreach (Bee currBee in workBee)
                 {
                     tmp = new Bee(argCnt);
                     for (int i = 0; i < argCnt; i++)
@@ -134,7 +139,7 @@ namespace BeeMethod
                     tmp.profit = getProfit(tmp);
                     newWorkBee.Add(tmp);
                 }
-                foreach (Bee currBee in newWorkBee)
+                foreach (Bee currBee in workBee)
                 {
                     tmp = new Bee(argCnt);
                     for (int i = 0; i < argCnt; i++)
@@ -145,7 +150,7 @@ namespace BeeMethod
                     tmp.profit = getProfit(tmp);
                     newWorkBee.Add(tmp);
                 }
-                best.Copy(newWorkBee.First());
+                newWorkBee.AddRange(workBee);
                 foreach (Bee currBee in newWorkBee)
                 {
                     if (best.profit < currBee.profit)
@@ -153,7 +158,6 @@ namespace BeeMethod
                         best.Copy(currBee);
                     }
                 }
-                newWorkBee.AddRange(workBee);
                 //Step 5
                 double fullProfit = 0;
                 foreach (Bee currBee in newWorkBee)
@@ -163,6 +167,7 @@ namespace BeeMethod
                 fullProfit /= newWorkBee.Count;
                 double d;
                 double L;
+                bee.Clear();
                 for (int i = 0; i < newWorkBee.Count; i++)
                 {
                     d = newWorkBee[i].profit / fullProfit;
@@ -195,15 +200,6 @@ namespace BeeMethod
                 range *= (1 - (double)iter / iterMax);
             }
             return (best.point.x);
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string str = Console.ReadLine();
-
         }
     }
 }
