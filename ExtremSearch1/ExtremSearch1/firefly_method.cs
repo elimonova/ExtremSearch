@@ -67,6 +67,16 @@ namespace FireflyMethod
             }
             return d;
         }
+        private void checkRange(ref Firefly a)
+        {
+            for (int i = 0; i < argCnt; i++)
+            {
+                a.point[i] = (a.point[i] < rangeMin[i]) ? rangeMin[i] : a.point[i];
+                a.point[i] = (a.point[i] > rangeMax[i]) ? rangeMax[i] : a.point[i];
+            }
+            return;
+        }
+               
         private void moveFirefly(ref Firefly a, ref Firefly b)
         {
             double dist2 = getDestination2(a, b);
@@ -75,6 +85,7 @@ namespace FireflyMethod
             {
                 a.point[i] += beta0 * Math.Exp(-gamma * dist2) * (b.point[i] - a.point[i]) + alpha * (currRand - 0.5);
             }
+            checkRange(ref a);
         }
 
         public double[] search()

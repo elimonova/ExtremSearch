@@ -13,6 +13,8 @@ namespace ExtremSearch
 {
     public partial class Form1 : Form
     {
+        Form3 myForm3 = new Form3();
+    
         public Form1()
         {
             InitializeComponent();
@@ -132,7 +134,9 @@ namespace ExtremSearch
                 throwError("Выберите Max или Min");
                 return;
             }
-            BeeMethod.BeeMethod myBeeMethod = new BeeMethod.BeeMethod(Bs, alpha, TInit, TFinal, argCnt, maxIter, rangeMin, rangeMax, w, eps, eta, beta, gamma, range, optOrient, myFunc);
+            BeeMethod.BeeMethod myBeeMethod = new BeeMethod.BeeMethod(Bs,         alpha, TInit, TFinal, argCnt, maxIter, rangeMin,
+                                                                      rangeMax,       w,   eps,    eta,   beta,   gamma,    range,
+                                                                      optOrient, myFunc);
             double[] res = myBeeMethod.search();
             string result = "f(";
             for (int i = 0; i < res.Length - 1; i++)
@@ -199,7 +203,8 @@ namespace ExtremSearch
                 throwError("Выберите Max или Min");
                 return;
             }
-            FireflyMethod.FireflyMethod myFireflyMethod = new FireflyMethod.FireflyMethod(B, argCnt, rangeMin, rangeMax, gamma, maxIter, optOrient, alpha, beta, myFunc);
+            FireflyMethod.FireflyMethod myFireflyMethod = new FireflyMethod.FireflyMethod(B, argCnt, rangeMin, rangeMax, gamma, 
+                                                                                          maxIter, optOrient, alpha, beta, myFunc);
             double[] res = myFireflyMethod.search();
             string result = "f(";
             for (int i = 0; i < res.Length - 1; i++)
@@ -248,7 +253,6 @@ namespace ExtremSearch
             string[] result = input.Split(',');
             if (result.Length != argCnt)
             {
-               // throwError("Границы диапазона должны иметь n координат");
                 throw new System.FormatException();
             }
             for (int i = 0; i < result.Length; i++)
@@ -262,6 +266,56 @@ namespace ExtremSearch
             errorWindow.ShowInTaskbar = false;
             errorWindow.StartPosition = FormStartPosition.CenterScreen;
             errorWindow.ShowDialog(this);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            myForm3.ShowDialog(this);
+            this.Visible = true;
+        }
+        
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string orient;
+            if (radioButton1.Checked)
+            {
+                orient = "Max";
+            }
+            else if (radioButton2.Checked)
+            {
+                orient = "Min";
+            }
+            else
+            {
+                throwError("Выберите Min или Max");
+                return;
+            }
+            if (listBox1.SelectedIndex == 0)
+            {
+                if (label20.Text != string.Empty)
+                {
+                    string[] args = { textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text, textBox6.Text, textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text, textBox11.Text, 
+                                      textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, orient };
+                    myForm3.addBeeData(args);
+                }
+            }
+            if (listBox1.SelectedIndex == 1)
+            {
+                if (label20.Text != string.Empty)
+                {
+                    string[] args = { textBox16.Text, textBox17.Text, textBox18.Text, textBox19.Text, textBox20.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, orient};
+                    myForm3.addFireflyData(args);
+                }
+            }
+            if (listBox1.SelectedIndex == 2)
+            {
+
+            }
+            if (listBox1.SelectedIndex == 3)
+            {
+
+            }
         }
 
     }

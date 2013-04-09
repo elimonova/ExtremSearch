@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace ExtremSearch
 {
@@ -14,13 +15,57 @@ namespace ExtremSearch
         public Form3()
         {
             InitializeComponent();
-            while(true)
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.ShowDialog();
+            textBox1.Text = saveFileDialog1.FileName;
+        }
+        public void addBeeData(string[] args)
+        {
+            dataGridView1.Rows.Add(args);
+        }
+        public void addFireflyData(string[] args)
+        {
+            dataGridView2.Rows.Add(args);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
             {
-                progressBar1.Value++;
-                if (progressBar1.Value == 100)
+                StreamWriter dataOut = new StreamWriter(textBox1.Text);
+
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
-                    progressBar1.Value = 0;
+                    for (int j = 0; j < dataGridView1.Columns.Count; j++)
+                    {
+                        dataOut.Write(dataGridView1.Rows[i].Cells[j].Value.ToString());
+                        dataOut.Write(" ");
+                    }
+                    dataOut.WriteLine();
                 }
+                dataOut.WriteLine();
+                for (int i = 0; i < dataGridView2.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dataGridView2.Columns.Count; j++)
+                    {
+                        dataOut.Write(dataGridView2.Rows[i].Cells[j].Value.ToString());
+                        dataOut.Write(" ");
+                    }
+                    dataOut.WriteLine();
+                }
+                dataOut.Close();
+            }
+            catch
+            {
+                textBox1.Text = "Invalid file";
             }
         }
     }

@@ -66,7 +66,7 @@ namespace BeeMethod
         }
         private int getRandSign()
         {
-            return rand.NextDouble() < 0.5 ? 1 : -1;
+            return (rand.NextDouble() < 0.5) ? 1 : -1;
         }
         private void checkRange(ref Bee tmp)
         {
@@ -107,12 +107,11 @@ namespace BeeMethod
             }
             iter = 1;
             //Step 3
-
+            best.Copy(bee.First());
             while (T != TFinal && iter != iterMax)
             {
                 newWorkBee.Clear();
                 workBee.Clear();
-                best.Copy(bee.First());
                 for (int i = 0; i < bee.Count; i++)
                 {
                     if (best.profit < bee[i].profit)
@@ -122,11 +121,13 @@ namespace BeeMethod
                 }
                 for (int i = 0; i < bee.Count; i++)
                 {
+                    double r = Math.Exp(-Math.Abs(bee[i].profit - best.profit) / T);
                     if (Math.Exp(-Math.Abs(bee[i].profit - best.profit) / T) > rand.NextDouble())
                     {
                         workBee.Add(bee[i]);
                     }
                 }
+                workBee.Add(best);
                 //Step 4
                 foreach (Bee currBee in workBee)
                 {
@@ -164,7 +165,6 @@ namespace BeeMethod
                 {
                     fullProfit += currBee.profit;
                 }
-                fullProfit /= newWorkBee.Count;
                 double d;
                 double L;
                 bee.Clear();
@@ -174,8 +174,8 @@ namespace BeeMethod
                     d += getRandSign() * rand.NextDouble() * wMax;
                     d = d > 1 ? 1 : d;
                     d = d < eMax ? 0 : d;
-                    L = d - eta * fullProfit < 0 ? 0 : d - eta * fullProfit;
-                    if (L / beta > gamma * fullProfit)
+                    L = (d - eta * fullProfit / newWorkBee.Count) < 0 ? 0 : (d - eta * fullProfit / newWorkBee.Count);
+                    if (L / beta > (gamma * fullProfit / newWorkBee.Count))
                     {
                         bee.Add(newWorkBee[i]); //danced bee are added
 
