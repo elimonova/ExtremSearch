@@ -170,9 +170,6 @@ namespace Parser
                 else
                 {
                     double summ = 0;
-         //           try
-         //           {
-
                         switch (str)
                         {
  
@@ -320,11 +317,6 @@ namespace Parser
 								throw new System.FormatException();
 							}
 						}
-       //             }
-        //            catch (Exception ex)
-       //             {
-       //                 ExtremSearch.Form1.throwError("Функция некорректна");   
-       //             }
                     stack.Push(summ.ToString());
                     if (queue.Count > 0)
 					{
@@ -340,25 +332,4 @@ namespace Parser
             return Convert.ToDouble(stack.Pop());
         }
     }
-
-    /*
-	class MainClass
-	{
-		public static void Main (string[] args)
-		{
-			string inputExpr = Console.ReadLine();
-			PostfixNotationExpression expr = new PostfixNotationExpression();
-			string[] outData = expr.ConvertToPostfixNotation(inputExpr);
-			foreach(string s in outData)
-			{
-				Console.WriteLine(s);
-			}
-			Console.WriteLine("All");
-			int[] x = new int [2];
-			x[0] = 1;
-			x[1] = 1;
-			decimal res = expr.result(inputExpr, x);
-			Console.WriteLine (res);
-		}
-	}*/
 }

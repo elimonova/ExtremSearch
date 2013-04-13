@@ -296,7 +296,7 @@ namespace ExtremSearch
                 if (label20.Text != string.Empty)
                 {
                     string[] args = { textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text, textBox6.Text, textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text, textBox11.Text, 
-                                      textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, orient };
+                                      textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, orient, label20.Text };
                     myForm3.addBeeData(args);
                 }
             }
@@ -304,7 +304,7 @@ namespace ExtremSearch
             {
                 if (label20.Text != string.Empty)
                 {
-                    string[] args = { textBox16.Text, textBox17.Text, textBox18.Text, textBox19.Text, textBox20.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, orient};
+                    string[] args = { textBox16.Text, textBox17.Text, textBox18.Text, textBox19.Text, textBox20.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, orient, label20.Text};
                     myForm3.addFireflyData(args);
                 }
             }
