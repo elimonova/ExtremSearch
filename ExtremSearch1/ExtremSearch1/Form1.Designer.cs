@@ -55,13 +55,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.textBox23 = new System.Windows.Forms.TextBox();
-            this.textBox22 = new System.Windows.Forms.TextBox();
-            this.textBox21 = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.textBox19 = new System.Windows.Forms.TextBox();
             this.textBox18 = new System.Windows.Forms.TextBox();
@@ -72,6 +65,13 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.textBox23 = new System.Windows.Forms.TextBox();
+            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
@@ -358,69 +358,6 @@
             this.panel2.TabIndex = 18;
             this.panel2.Visible = false;
             // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.textBox23);
-            this.panel3.Controls.Add(this.textBox22);
-            this.panel3.Controls.Add(this.textBox21);
-            this.panel3.Controls.Add(this.label28);
-            this.panel3.Controls.Add(this.label27);
-            this.panel3.Controls.Add(this.label26);
-            this.panel3.Location = new System.Drawing.Point(452, 72);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(579, 253);
-            this.panel3.TabIndex = 22;
-            this.panel3.Visible = false;
-            // 
-            // textBox23
-            // 
-            this.textBox23.Location = new System.Drawing.Point(182, 111);
-            this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(306, 26);
-            this.textBox23.TabIndex = 7;
-            // 
-            // textBox22
-            // 
-            this.textBox22.Location = new System.Drawing.Point(182, 66);
-            this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(306, 26);
-            this.textBox22.TabIndex = 6;
-            // 
-            // textBox21
-            // 
-            this.textBox21.Location = new System.Drawing.Point(182, 21);
-            this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(306, 26);
-            this.textBox21.TabIndex = 5;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Font = new System.Drawing.Font("Symbol", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.label28.Location = new System.Drawing.Point(116, 115);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(44, 24);
-            this.label28.TabIndex = 2;
-            this.label28.Text = "a = ";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(42, 72);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(114, 20);
-            this.label27.TabIndex = 1;
-            this.label27.Text = "Max Iteration =";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(103, 24);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(57, 20);
-            this.label26.TabIndex = 0;
-            this.label26.Text = "TInit = ";
-            // 
             // textBox20
             // 
             this.textBox20.Location = new System.Drawing.Point(182, 212);
@@ -504,6 +441,69 @@
             this.label21.Size = new System.Drawing.Size(37, 20);
             this.label21.TabIndex = 0;
             this.label21.Text = "B = ";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.textBox23);
+            this.panel3.Controls.Add(this.textBox22);
+            this.panel3.Controls.Add(this.textBox21);
+            this.panel3.Controls.Add(this.label28);
+            this.panel3.Controls.Add(this.label27);
+            this.panel3.Controls.Add(this.label26);
+            this.panel3.Location = new System.Drawing.Point(452, 72);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(579, 253);
+            this.panel3.TabIndex = 22;
+            this.panel3.Visible = false;
+            // 
+            // textBox23
+            // 
+            this.textBox23.Location = new System.Drawing.Point(182, 111);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.Size = new System.Drawing.Size(306, 26);
+            this.textBox23.TabIndex = 7;
+            // 
+            // textBox22
+            // 
+            this.textBox22.Location = new System.Drawing.Point(182, 66);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(306, 26);
+            this.textBox22.TabIndex = 6;
+            // 
+            // textBox21
+            // 
+            this.textBox21.Location = new System.Drawing.Point(182, 21);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(306, 26);
+            this.textBox21.TabIndex = 5;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Symbol", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.label28.Location = new System.Drawing.Point(116, 115);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(44, 24);
+            this.label28.TabIndex = 2;
+            this.label28.Text = "a = ";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(42, 72);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(114, 20);
+            this.label27.TabIndex = 1;
+            this.label27.Text = "Max Iteration =";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(103, 24);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(57, 20);
+            this.label26.TabIndex = 0;
+            this.label26.Text = "TInit = ";
             // 
             // label14
             // 

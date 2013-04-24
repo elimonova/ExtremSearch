@@ -278,24 +278,31 @@ namespace ExtremSearch
         {
             return;
         }
+        private void showProgress()
+        {
+            Form4 progressBar = new Form4();
+            progressBar.StartPosition = FormStartPosition.CenterScreen;
+            progressBar.ShowDialog();
+            return;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
+            Thread progress = new Thread(showProgress);
+            progress.Start();
             try
             {
                 if (listBox1.SelectedIndex == 0) // Bee Method
                 {
                     StartBeeMethod();
-                    return;
                 }
                 if (listBox1.SelectedIndex == 1) // Firefly Method
                 {
                     StartFireflyMethod();
-                    return;
                 }
                 if (listBox1.SelectedIndex == 2) // Sim Annealing
                 {
                     StartSimAnnealing();
-                    return;
                 }
             }
             catch (System.FormatException)
@@ -310,6 +317,7 @@ namespace ExtremSearch
             {
                 throwError("Не хватает памяти для завершения операции");
             }
+            progress.Abort();
         }
         private IEnumerable<double> getPointFromString(string input, int argCnt)
         {
