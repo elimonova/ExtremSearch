@@ -30,6 +30,10 @@ namespace ExtremSearch
         {
             dataGridView2.Rows.Add(args);
         }
+        public void addSimAnnealingData(string[] args)
+        {
+            dataGridView3.Rows.Add(args);
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -61,12 +65,35 @@ namespace ExtremSearch
                     }
                     dataOut.WriteLine();
                 }
+                dataOut.WriteLine();
+                for (int i = 0; i < dataGridView3.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dataGridView3.Columns.Count; j++)
+                    {
+                        dataOut.Write(dataGridView3.Rows[i].Cells[j].Value.ToString());
+                        dataOut.Write(" ");
+                    }
+                    dataOut.WriteLine();
+                }
                 dataOut.Close();
             }
             catch
             {
                 textBox1.Text = "Invalid file";
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                dataGridView1.Rows.Remove(row);
+            }
+            foreach (DataGridViewRow row in dataGridView2.SelectedRows)
+            {
+                dataGridView2.Rows.Remove(row);
+            }
+            return;
         }
     }
 }

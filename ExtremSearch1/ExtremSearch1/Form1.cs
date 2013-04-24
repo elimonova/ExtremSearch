@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-using BeeMethod;
 
 namespace ExtremSearch
 {
@@ -26,11 +25,19 @@ namespace ExtremSearch
             {
                 panel1.Visible = true;
                 panel2.Visible = false;
+                panel3.Visible = false;
             }
             if (listBox1.SelectedIndex == 1)
             {
                 panel1.Visible = false;
                 panel2.Visible = true;
+                panel3.Visible = false;
+            }
+            if (listBox1.SelectedIndex == 2)
+            {
+                panel1.Visible = false;
+                panel2.Visible = false;
+                panel3.Visible = true;
             }
         }
 
@@ -138,14 +145,7 @@ namespace ExtremSearch
                                                                       rangeMax,       w,   eps,    eta,   beta,   gamma,    range,
                                                                       optOrient, myFunc);
             double[] res = myBeeMethod.search();
-            string result = "f(";
-            for (int i = 0; i < res.Length - 1; i++)
-            {
-                result += res[i].ToString() + ", ";
-            }
-            result += res[res.Length - 1].ToString() + ") = ";
-            result += myFunc.result(argCnt, res).ToString();
-            label20.Text = result;
+            addResultToLabel20(argCnt, res, myFunc);
             return;
         }
         private void StartFireflyMethod()
@@ -206,6 +206,11 @@ namespace ExtremSearch
             FireflyMethod.FireflyMethod myFireflyMethod = new FireflyMethod.FireflyMethod(B, argCnt, rangeMin, rangeMax, gamma, 
                                                                                           maxIter, optOrient, alpha, beta, myFunc);
             double[] res = myFireflyMethod.search();
+            addResultToLabel20(argCnt, res, myFunc);
+            return;
+        }
+        private void addResultToLabel20(int argCnt, double[] res, Parser.PostfixNotationExpression myFunc)
+        {
             string result = "f(";
             for (int i = 0; i < res.Length - 1; i++)
             {
@@ -213,7 +218,60 @@ namespace ExtremSearch
             }
             result += res[res.Length - 1].ToString() + ") = ";
             result += myFunc.result(argCnt, res).ToString();
+            if (Double.IsNaN(myFunc.result(argCnt, res)))
+            {
+                throwError("Функция не определена на заданном промежутке");
+                return;
+            }
             label20.Text = result;
+        }
+        private void StartSimAnnealing()
+        {
+            double T = Convert.ToDouble(textBox21.Text);
+            if (T <= 0)
+            {
+                throwError("T должно быть больше 0");
+                return;
+            }
+            double alpha = Convert.ToDouble(textBox23.Text);
+            if (alpha <= 0 || alpha >= 1)
+            {
+                throwError("alpha должно быть в пределах (0, 1)");
+                return;
+            }
+            int maxIter = Convert.ToInt32(textBox22.Text);
+            if (maxIter <= 0)
+            {
+                throwError("Max Iteration должно быть положительным целым числом");
+                return;
+            }
+            int argCnt = Convert.ToInt32(textBox12.Text);
+            if (argCnt <= 0)
+            {
+                throwError("n должно быть положительным числом");
+                return;
+            }
+            double[] rangeMin = getPointFromString(textBox14.Text, argCnt).ToArray();
+            double[] rangeMax = getPointFromString(textBox15.Text, argCnt).ToArray();
+            Parser.PostfixNotationExpression myFunc = new Parser.PostfixNotationExpression(textBox13.Text);
+            int optOrient;
+            if (radioButton1.Checked)
+            {
+                optOrient = 1;
+            }
+            else if (radioButton2.Checked)
+            {
+                optOrient = -1;
+            }
+            else
+            {
+                throwError("Выберите Max или Min");
+                return;
+            }
+            SimAnnealing.SimAnnealing mySimAnnealingMethod = new SimAnnealing.SimAnnealing(T, argCnt, rangeMin, rangeMax, 
+                                                                                           maxIter, optOrient, alpha, myFunc);
+            double[] res = mySimAnnealingMethod.search();
+            addResultToLabel20(argCnt, res, myFunc);
             return;
         }
         private void textBox16_TextChanged(object sender, EventArgs e)
@@ -232,6 +290,11 @@ namespace ExtremSearch
                 if (listBox1.SelectedIndex == 1) // Firefly Method
                 {
                     StartFireflyMethod();
+                    return;
+                }
+                if (listBox1.SelectedIndex == 2) // Sim Annealing
+                {
+                    StartSimAnnealing();
                     return;
                 }
             }
@@ -310,7 +373,11 @@ namespace ExtremSearch
             }
             if (listBox1.SelectedIndex == 2)
             {
-
+                if (label20.Text != string.Empty)
+                {
+                    string[] args = { textBox21.Text, textBox22.Text, textBox23.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, orient, label20.Text };
+                    myForm3.addSimAnnealingData(args);
+                }           
             }
             if (listBox1.SelectedIndex == 3)
             {

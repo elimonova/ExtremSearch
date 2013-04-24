@@ -121,7 +121,6 @@ namespace BeeMethod
                 }
                 for (int i = 0; i < bee.Count; i++)
                 {
-                    double r = Math.Exp(-Math.Abs(bee[i].profit - best.profit) / T);
                     if (Math.Exp(-Math.Abs(bee[i].profit - best.profit) / T) > rand.NextDouble())
                     {
                         workBee.Add(bee[i]);
