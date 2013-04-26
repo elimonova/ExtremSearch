@@ -72,8 +72,8 @@ namespace SimAnnealing
             Solution tmp = new Solution(argCnt);           
             for (int i = 0; i < argCnt; i++)
             {
-            //    tmp.point[i] = curr.point[i] + getRandSign() * (rangeMax[i] - rangeMin[i]) * T / TInit * rand.NextDouble();
-                tmp.point[i] = curr.point[i] + getRandSign() * (rangeMax[i] - rangeMin[i]) * rand.NextDouble();      
+                tmp.point[i] = curr.point[i] + getRandSign() * (rangeMax[i] - rangeMin[i]) * T / TInit * rand.NextDouble();
+            //    tmp.point[i] = curr.point[i] + getRandSign() * (rangeMax[i] - rangeMin[i]) * rand.NextDouble();      
             }
             checkRange(ref tmp);
             tmp.profit = getProfit(tmp.point);
@@ -91,7 +91,7 @@ namespace SimAnnealing
             for (int it = 0; it < iterMax; it++)
             {
                 next = chooseNext(curr);
-                if (admit(curr.profit - next.profit))
+                if (admit(next.profit - curr.profit))
                 {
                     curr = next;
                 }

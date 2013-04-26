@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ExtremSearch
 {
@@ -282,7 +283,7 @@ namespace ExtremSearch
         {
             Form4 progressBar = new Form4();
             progressBar.StartPosition = FormStartPosition.CenterScreen;
-            progressBar.ShowDialog();
+            progressBar.Show();
             return;
         }
 
@@ -313,9 +314,17 @@ namespace ExtremSearch
             {
                 throwError("Параметры слишком большие");
             }
+            catch (System.DivideByZeroException)
+            {
+                throwError("Функция не определена на заданном промежутке");
+            }
             catch (System.OutOfMemoryException)
             {
                 throwError("Не хватает памяти для завершения операции");
+            }
+            catch
+            {
+
             }
             progress.Abort();
         }
@@ -390,6 +399,52 @@ namespace ExtremSearch
             if (listBox1.SelectedIndex == 3)
             {
 
+            }
+        }
+        private string getSearchString(string func)
+        {
+            string res = string.Empty;
+            byte[] currSymbol = Encoding.ASCII.GetBytes(func); 
+            for (int i = 0; i < func.Length; i++)
+            {
+                if (Char.IsLetterOrDigit(func[i]))
+                {
+                    res += func[i];
+                }
+                else
+                {
+                    res += "%" + String.Format("{0:X}", currSymbol[i]);
+                }
+            }
+            res = res.Replace("x1", "x");
+            res = res.Replace("x2", "y");
+            return res;
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (textBox13.Text != String.Empty)
+                {
+                    int n = Convert.ToInt32(textBox12.Text);
+                    if (n != 1 && n != 2)
+                    {
+                        throwError("Можно построить функцию только 1 или 2 переменных");
+                        return;
+                    }
+                   // Process.Start("firefox.exe", "google.ru/search?q=\"" + getFuncXY(textBox13.Text) + "\"");
+                    Process.Start("firefox.exe", "google.ru/search?q="+getSearchString(textBox13.Text));
+           
+                }
+                else
+                {
+                    throwError("Введите функцию");
+                    return;
+                }
+            }
+            catch
+            {
+                
             }
         }
 
