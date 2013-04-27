@@ -14,7 +14,8 @@ namespace ExtremSearch
     public partial class Form1 : Form
     {
         Form3 myForm3 = new Form3();
-    
+        Form4 progressBar = new Form4();
+              
         public Form1()
         {
             InitializeComponent();
@@ -204,6 +205,7 @@ namespace ExtremSearch
                 throwError("Выберите Max или Min");
                 return;
             }
+      
             FireflyMethod.FireflyMethod myFireflyMethod = new FireflyMethod.FireflyMethod(B, argCnt, rangeMin, rangeMax, gamma, 
                                                                                           maxIter, optOrient, alpha, beta, myFunc);
             double[] res = myFireflyMethod.search();
@@ -225,6 +227,7 @@ namespace ExtremSearch
                 return;
             }
             label20.Text = result;
+            progressBar.Hide();
         }
         private void StartSimAnnealing()
         {
@@ -275,36 +278,31 @@ namespace ExtremSearch
             addResultToLabel20(argCnt, res, myFunc);
             return;
         }
-        private void textBox16_TextChanged(object sender, EventArgs e)
-        {
-            return;
-        }
-        private void showProgress()
-        {
-            Form4 progressBar = new Form4();
-            progressBar.StartPosition = FormStartPosition.CenterScreen;
-            progressBar.Show();
-            return;
-        }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {
-            Thread progress = new Thread(showProgress);
-            progress.Start();
+            System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
             try
             {
                 if (listBox1.SelectedIndex == 0) // Bee Method
                 {
-                    StartBeeMethod();
+                    Thread progress = new Thread(StartBeeMethod);
+                    progress.Start();
+                    progressBar.ShowDialog();
                 }
                 if (listBox1.SelectedIndex == 1) // Firefly Method
                 {
-                    StartFireflyMethod();
+                    Thread progress = new Thread(StartFireflyMethod);
+                    progress.Start();
+                    progressBar.ShowDialog();      
                 }
                 if (listBox1.SelectedIndex == 2) // Sim Annealing
                 {
-                    StartSimAnnealing();
+                    Thread progress = new Thread(StartSimAnnealing);
+                    progress.Start();
+                    progressBar.ShowDialog();      
                 }
+                    
             }
             catch (System.FormatException)
             {
@@ -322,11 +320,7 @@ namespace ExtremSearch
             {
                 throwError("Не хватает памяти для завершения операции");
             }
-            catch
-            {
-
-            }
-            progress.Abort();
+            return;
         }
         private IEnumerable<double> getPointFromString(string input, int argCnt)
         {
@@ -432,7 +426,6 @@ namespace ExtremSearch
                         throwError("Можно построить функцию только 1 или 2 переменных");
                         return;
                     }
-                   // Process.Start("firefox.exe", "google.ru/search?q=\"" + getFuncXY(textBox13.Text) + "\"");
                     Process.Start("firefox.exe", "google.ru/search?q="+getSearchString(textBox13.Text));
            
                 }
@@ -444,7 +437,7 @@ namespace ExtremSearch
             }
             catch
             {
-                
+                throwError("Ошибка при открытии Firefox");
             }
         }
 

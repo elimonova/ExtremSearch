@@ -15,6 +15,7 @@ namespace ExtremSearch
         {
             InitializeComponent();
             progressBar1.Style = ProgressBarStyle.Marquee;
+            StartPosition = FormStartPosition.CenterScreen;  
         }
 
         private void Form4_FormClosing(object sender, FormClosingEventArgs e)
